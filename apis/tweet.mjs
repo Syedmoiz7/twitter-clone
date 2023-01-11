@@ -68,6 +68,39 @@ router.get('/tweets', (req, res) => {
 })
 
 
+router.get('/tweetFeed', (req, res) => {
+
+    const userId = new mongoose.Types.ObjectId(req.body.token._id)
+
+    tweetModel.find({ isDeleted: false }, {},
+        {
+            sort: { "_id": -1 },
+            limit: 100,
+            skip: 0,
+            populate: {
+                path: "owner",
+                select: "firstName email"
+            }
+        },
+        (err, data) => {
+            if (!err) {
+                res.send({
+                    message: "got all tweets successfully ",
+                    data: data
+                })
+            } else {
+                res.status(500).send({
+                    message: "server error"
+                })
+            }
+        });
+
+
+
+
+
+})
+
 router.get('/tweet/:id', (req, res) => {
 
     const id = req.params.id;
@@ -93,6 +126,7 @@ router.get('/tweet/:id', (req, res) => {
         }
     });
 })
+
 
 router.delete('/tweet/:id', (req, res) => {
     const id = req.params.id;

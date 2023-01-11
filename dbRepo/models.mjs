@@ -3,18 +3,18 @@ import mongoose from 'mongoose';
 
 let tweetSchema = new mongoose.Schema({
     text: { type: String, required: true },
-    owner: { type: mongoose.ObjectId, required: true },
+    owner: { type: mongoose.ObjectId, ref:"Users", required: true },
     image: { type: String },
     // likes: [{ type: mongoose.ObjectId }],
     // comments: [{ 
     //  user: {type: mongoose.ObjectId},
     //  commentText: String
     // }],
-    isDeleted: {typeof: Boolean, default: false},
+    isDeleted: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now }
 });
 
-export const tweetModel = mongoose.model('products', tweetSchema);
+export const tweetModel = mongoose.model('tweets', tweetSchema);
 
 
 const userSchema = new mongoose.Schema({

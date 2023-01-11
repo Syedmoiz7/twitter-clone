@@ -9,7 +9,7 @@ import { GlobalContext } from '../context/Context';
 
 
 
-function Home() {
+function Profile() {
 
     let { state, dispatch } = useContext(GlobalContext);
 
@@ -20,7 +20,7 @@ function Home() {
 
     const getAllTweets = async () => {
         try {
-            const response = await axios.get(`${state.baseUrl}/tweetFeed`)
+            const response = await axios.get(`${state.baseUrl}/tweets`)
             console.log("response: ", response.data);
             setTweets(response.data.data)
 
@@ -110,7 +110,6 @@ function Home() {
 
     return (
         <div className='main'>
-            <h1>Home</h1>
             <form onSubmit={myFormik.handleSubmit}>
                 <textarea
                     id="tweetText"
@@ -135,22 +134,20 @@ function Home() {
             <br />
 
             <div>
-                {tweets.map((eachProduct, i) => (
+                {tweets.map((eachTweet, i) => (
                     <div key={i} className="productCont">
-                        <h2>{eachProduct.name}</h2>
-                        <p>{eachProduct._id}</p>
-                        <h5>{eachProduct.price}</h5>
-                        <p>{eachProduct.description}</p>
+                        <h2>{eachTweet?.owner?.firstName}</h2>
+                        <h5>{eachTweet?.text}</h5>
 
                         <button onClick={() => {
-                            deleteTweet(eachProduct._id)
+                            deleteTweet(eachTweet._id)
                         }}>Delete</button>
 
                         <button onClick={() => {
-                            editMode(eachProduct)
+                            editMode(eachTweet)
                         }}>Edit</button>
 
-                        {(isEditMode && editingTweet._id === eachProduct._id) ?
+                        {(isEditMode && editingTweet._id === eachTweet._id) ?
                             <div>
                                 <form onSubmit={editFormik.handleSubmit}>
                                     <input
@@ -216,4 +213,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default Profile;

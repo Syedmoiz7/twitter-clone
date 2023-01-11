@@ -8,8 +8,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 
 import Home from "./home";
-import About from "./about";
-import Gallery from "./gallery";
+import Profile from "./profile";
 import Login from "./login"
 import Signup from "./signup"
 import { get } from 'mongoose';
@@ -73,6 +72,7 @@ function Render() {
     // Add a request interceptor
     axios.interceptors.request.use(function (config) {
       // Do something before request is sent
+      console.log("interceptor");
       config.withCredentials = true
       return config;
     }, function (error) {
@@ -108,8 +108,6 @@ function Render() {
           <div className='navbar'>
             <ul>
               <li> <Link to={'/'}>Home</Link></li>
-              <li> <Link to={'/gallery'}>Gallery</Link></li>
-              <li> <Link to={'/about'}>About</Link></li>
               <li> <Link to={'/profile'}>Profile</Link></li>
             </ul>
             <div> {state?.user?.firstName} <button onClick={logutHandler}>Logout</button></div>
@@ -134,8 +132,7 @@ function Render() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="gallery" element={<Gallery />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={
             <Navigate to="/" replace={true} />
           } />
