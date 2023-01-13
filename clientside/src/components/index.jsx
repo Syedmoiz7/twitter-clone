@@ -11,6 +11,7 @@ import Home from "./home";
 import Profile from "./profile";
 import Login from "./login"
 import Signup from "./signup"
+import ChangePassword from "./changePassword"
 import { get } from 'mongoose';
 
 
@@ -133,6 +134,7 @@ function Render() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="*" element={
             <Navigate to="/" replace={true} />
           } />

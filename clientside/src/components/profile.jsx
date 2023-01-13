@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import './index.css'
 import { GlobalContext } from '../context/Context';
+import { Routes, Route, Link, Navigate } from "react-router-dom";
+
 
 
 
@@ -110,6 +112,10 @@ function Profile() {
 
     return (
         <div className='main'>
+            <div className='changePassword'>
+                <button><Link to={'/change-password'}>Change Password</Link></button>
+            </div>
+
             <form onSubmit={myFormik.handleSubmit}>
                 <textarea
                     id="tweetText"
