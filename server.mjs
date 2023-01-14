@@ -9,6 +9,7 @@ import authApis from "./apis/auth.mjs"
 import tweetApi from "./apis/tweet.mjs"
 import { userModel } from './dbRepo/models.mjs';
 import { get } from 'http';
+import { stringify } from 'querystring';
 
 const SECRET = process.env.SECRET || "topsecret";
 
@@ -97,13 +98,71 @@ const getUser = async (req, res) => {
       message: "something went wrong on server"
     })
   }
-  
+
 }
 
-app.get('/api/v1/profile', getUser );
+app.get('/api/v1/profile', getUser);
 
 app.get('/api/v1/profile/:id', getUser);
 
+app.post('/api/v1/change-password', async (req, res) => {
+
+  try {
+
+    const body = req.body;
+
+    const currentPassword = body.currentPassword;
+    const newPassword = body.password;
+    const _id = req.body.token._id
+
+    // check if user already exist 
+    const user = await userModel.findOne(
+      { _id: _id },
+      "password",
+    ).exec()
+
+    if (!err) {
+      console.log("user: ", user);
+
+      if (user) { // user found
+        const isMatched = await varifyHash(currentPassword, user.password)
+
+        console.log("isMatched: ", isMatched);
+
+        if (isMatched) {
+
+          const newHash = await stringToHash(newPassword)
+
+          const updated = await userModel.updateOne({ _id: _id }, { password: newHash }).exec()
+
+          res.send({
+            message: "password change successfully",
+          });
+          return;
+
+        } else {
+          console.log("password did not match");
+          res.status(401).send({ message: "Incorrect email or password" });
+          return;
+        }
+
+      } else { // user not already exist
+        console.log("user not found");
+        res.status(401).send({ message: "Incorrect email or password" });
+        return;
+      }
+    } else {
+      console.log("db error: ", err);
+      res.status(500).send({ message: "login failed, please try later" });
+      return;
+    }
+
+  } catch (error) {
+    console.log("error: ", error);
+    res.status(500).send("error")
+  }
+
+})
 
 const __dirname = path.resolve();
 app.use('/', express.static(path.join(__dirname, './clientside/build')))

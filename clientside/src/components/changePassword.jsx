@@ -13,28 +13,26 @@ function ChangePassword() {
 
     let { state, dispatch } = useContext(GlobalContext);
 
-    const [email, setEmail] = useState("")
+    const [currentPassword, setCurrentPassword] = useState("")
     const [password, setPassword] = useState("")
     const [result, setResult] = useState("")
 
-    const loginHandler = async (e) => {
+    const proceedChangePassword = async (e) => {
         e.preventDefault();
 
         try {
-            let response = await axios.post(`${state.baseUrl}/login`, {
-                email: email,
+            let response = await axios.post(`${state.baseUrl}/current-password`, {
+                currentPassword: currentPassword,
                 password: password
             }, {
                 withCredentials: true
             })
 
-            dispatch({
-                type: "USER_LOGIN",
-                payload: response.data.profile
-            })
+            console.log("Password changed successfully");
+            setResult("Password changed successfully");
 
-            console.log("login successfull");
-            setResult("login successfull");
+            e.reset();
+
         } catch (e) {
             console.log("error: ", e);
         }
@@ -50,15 +48,20 @@ function ChangePassword() {
             </div>
 
             <div>
-                <form onSubmit={loginHandler}>
+                <form onSubmit={proceedChangePassword}>
                     <div className='form'>
-                        <input type="email" name="email" className="inputs"
-                            id="un" placeholder="Email"
-                            onChange={(e) => { setEmail(e.target.value) }} />
+                        <input type="password" name="current-Password" className="inputs"
+                            id="un" placeholder="Enter your current password"
+                            onChange={(e) => { setCurrentPassword(e.target.value) }} />
                         <br />
 
-                        <input type="password" name="password"
-                            className="inputs" placeholder="Password"
+                        <input type="password" name="new-password"
+                            className="inputs" placeholder="New password"
+                            onChange={(e) => { setPassword(e.target.value) }} />
+                        <br />
+
+                        <input type="password" name="confirm-password"
+                            className="inputs" placeholder="Confirm your new password"
                             onChange={(e) => { setPassword(e.target.value) }} />
                         <br />
 
@@ -66,8 +69,8 @@ function ChangePassword() {
                         Change Password
                         </button>
 
-                        <p>Don't have an account? </p>
-                        <Link to={'/signup'}>Signup</Link>
+                        {/* <p>Don't have an account? </p>
+                        <Link to={'/signup'}>Signup</Link> */}
 
                     </div>
                 </form>
