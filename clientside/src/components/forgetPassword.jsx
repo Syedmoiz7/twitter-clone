@@ -9,7 +9,7 @@ import axios from 'axios';
 
 
 
-function Login() {
+function ForgetPassword() {
 
     let { state, dispatch } = useContext(GlobalContext);
 
@@ -46,7 +46,7 @@ function Login() {
         <div className='mainCont'>
 
             <div className="heading">
-                <h1>Login</h1>
+                <h1>Forget Password</h1>
             </div>
 
             <div>
@@ -63,7 +63,7 @@ function Login() {
                         <br />
 
                         <button type='submit' className='btn'>
-                            Login
+                        Forget Password
                         </button>
 
                         <p>Don't have an account? </p>
@@ -82,4 +82,4 @@ function Login() {
         </div>)
 }
 
-export default Login;
+export default ForgetPassword;

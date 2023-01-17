@@ -21,7 +21,7 @@ function ChangePassword() {
         e.preventDefault();
 
         try {
-            let response = await axios.post(`${state.baseUrl}/current-password`, {
+            let response = await axios.post(`${state.baseUrl}/change-password`, {
                 currentPassword: currentPassword,
                 password: password
             }, {

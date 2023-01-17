@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import authApis from "./apis/auth.mjs"
 import tweetApi from "./apis/tweet.mjs"
 import { userModel } from './dbRepo/models.mjs';
+import { stringToHash, varifyHash } from 'bcrypt-inzi';
 import { get } from 'http';
 import { stringify } from 'querystring';
 
@@ -108,9 +109,7 @@ app.get('/api/v1/profile/:id', getUser);
 app.post('/api/v1/change-password', async (req, res) => {
 
   try {
-
     const body = req.body;
-
     const currentPassword = body.currentPassword;
     const newPassword = body.password;
     const _id = req.body.token._id
@@ -121,41 +120,19 @@ app.post('/api/v1/change-password', async (req, res) => {
       "password",
     ).exec()
 
-    if (!err) {
-      console.log("user: ", user);
+    if (!user) throw new Error ("user not found");
 
-      if (user) { // user found
-        const isMatched = await varifyHash(currentPassword, user.password)
-
-        console.log("isMatched: ", isMatched);
-
-        if (isMatched) {
+    const isMatched = await varifyHash(currentPassword, user.password)
+    if (!isMatched) throw new Error ("Incorrect email or password")
 
           const newHash = await stringToHash(newPassword)
 
-          const updated = await userModel.updateOne({ _id: _id }, { password: newHash }).exec()
+          await userModel.updateOne({ _id: _id }, { password: newHash }).exec()
 
           res.send({
             message: "password change successfully",
           });
           return;
-
-        } else {
-          console.log("password did not match");
-          res.status(401).send({ message: "Incorrect email or password" });
-          return;
-        }
-
-      } else { // user not already exist
-        console.log("user not found");
-        res.status(401).send({ message: "Incorrect email or password" });
-        return;
-      }
-    } else {
-      console.log("db error: ", err);
-      res.status(500).send({ message: "login failed, please try later" });
-      return;
-    }
 
   } catch (error) {
     console.log("error: ", error);

@@ -130,6 +130,7 @@ router.get('/tweet/:id', (req, res) => {
 
 router.delete('/tweet/:id', (req, res) => {
     const id = req.params.id;
+    const body = req.body
 
     tweetModel.deleteOne({
         _id: id,
