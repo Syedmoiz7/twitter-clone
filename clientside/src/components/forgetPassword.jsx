@@ -14,27 +14,25 @@ function ForgetPassword() {
     let { state, dispatch } = useContext(GlobalContext);
 
     const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [otp, setOtp] = useState("")
+    const [newPassword, setNewPassword] = useState("")
     const [result, setResult] = useState("")
+    const [isOtpSend, setIsOtpSend] = useState(false)
 
-    const loginHandler = async (e) => {
+    const sendOtp = async (e) => {
         e.preventDefault();
 
         try {
-            let response = await axios.post(`${state.baseUrl}/login`, {
-                email: email,
-                password: password
+            let response = await axios.post(`${state.baseUrl}/forget-password`, {
+                email: email
             }, {
                 withCredentials: true
             })
 
-            dispatch({
-                type: "USER_LOGIN",
-                payload: response.data.profile
-            })
+            console.log(response.data.message);
+            setResult(response.data.message);
+            setIsOtpSend(true)
 
-            console.log("login successfull");
-            setResult("login successfull");
         } catch (e) {
             console.log("error: ", e);
         }
@@ -50,29 +48,38 @@ function ForgetPassword() {
             </div>
 
             <div>
-                <form onSubmit={loginHandler}>
+                <form onSubmit={sendOtp}>
                     <div className='form'>
                         <input type="email" name="email" className="inputs"
-                            id="un" placeholder="Email"
+                            id="un" placeholder="Email" autoComplete='username'
                             onChange={(e) => { setEmail(e.target.value) }} />
                         <br />
 
-                        <input type="password" name="password"
-                            className="inputs" placeholder="Password"
-                            onChange={(e) => { setPassword(e.target.value) }} />
-                        <br />
+                        {(isOtpSend) ?
+                            <>
+                                <input type="text" name="otp" className="inputs"
+                                    id="un" placeholder="Enter your OTP"
+                                    onChange={(e) => { setOtp(e.target.value) }} />
+                                <br />
+
+                                <input type="password" name="newPassword" className="inputs"
+                                    id="un" placeholder="Enter your new password"
+                                    autoComplete='new-password'
+                                    onChange={(e) => { setNewPassword(e.target.value) }} />
+                                <br />
+
+                            </>
+                            :
+                            null}
+
 
                         <button type='submit' className='btn'>
-                        Forget Password
+                            Send OTP
                         </button>
-
-                        <p>Don't have an account? </p>
-                        <Link to={'/signup'}>Signup</Link>
 
                         <br />
 
-                        <button><Link to={'/forget-password'}>Forget Password ?</Link></button>
-
+                        <Link to={'/login'}>login</Link>
 
                     </div>
                 </form>

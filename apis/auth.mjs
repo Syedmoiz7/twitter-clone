@@ -1,10 +1,12 @@
 import express from 'express'
-import { userModel, tweetModel } from "./../dbRepo/models.mjs"
+import { userModel, otpModel } from "./../dbRepo/models.mjs"
 import jwt from 'jsonwebtoken';
+import { customAlphabet, nanoid } from "nanoid";
 import {
     stringToHash,
     varifyHash
 } from "bcrypt-inzi";
+import { model } from 'mongoose';
 
 const SECRET = process.env.SECRET || "topsecret";
 
@@ -167,5 +169,109 @@ router.post("/logout", (req, res) => {
 
     res.send({ message: "Logout successful" });
 })
+
+
+router.post("/forget-password", async (req, res) => {
+
+    try {
+
+        let body = req.body;
+        body.email = body.email.toLowerCase();
+
+        if (!body.email) { // null check - undefined, "", 0 , false, null , NaN
+            res.status(400).send(
+                `required fields missing, request example: 
+                {
+                    "email": "abc@abc.com"
+                }`
+            );
+            return;
+        }
+
+        // check if user already exist 
+        const user = await userModel.findOne(
+            { email: body.email },
+            "firstName email",
+        ).exec()
+
+        if (!user) throw new Error("user not found");
+
+        const nanoid = customAlphabet('1234567890', 6)
+        const OTP = nanoid()
+
+        console.log("otp: ", OTP);
+        otpModel.create({
+            otp: OTP,
+            email: body.email
+        })
+
+        // send otp via email remaining
+
+        res.send({
+            message: "OTP send successfully",
+        });
+        return;
+
+    } catch (error) {
+        console.log("error: ", error);
+        res.status(500).send({
+            message: error.message
+        })
+    }
+
+})
+
+router.post("/forget-password-2", async (req, res) => {
+
+    try {
+
+        let body = req.body;
+        body.email = body.email.toLowerCase();
+
+        if (!body.email || !body.otp || !body.newPassword) { // null check - undefined, "", 0 , false, null , NaN
+            res.status(400).send(
+                `required fields missing, request example: 
+                {
+                    "email": "abc@abc.com",
+                    "otp": "123456",
+                    "newPassword": "some secret string" 
+                }`
+            );
+            return;
+        }
+
+        // check if otp already exist 
+        const otpRecord = await otpModel.findOne(
+            { email: body.email },
+            "firstName email",
+        )
+        .sort({ _id: -1 })
+        .exec()
+
+        if (!otpRecord) throw new Error("otp not found");
+
+        const isMatched = await varifyHash(body.otp, otpRecord.otp)
+
+        if(!isMatched) throw new Error ("Invalid Otp")
+
+        const newHash = await stringToHash(body.newPassword)
+
+          await userModel.updateOne({ email: body.email }, { password: newHash }).exec()
+
+          res.send({
+            message: "password updated successfully",
+          });
+
+        return;
+
+    } catch (error) {
+        console.log("error: ", error);
+        res.status(500).send({
+            message: error.message
+        })
+    }
+
+})
+
 
 export default router

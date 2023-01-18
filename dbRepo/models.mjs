@@ -28,6 +28,15 @@ const userSchema = new mongoose.Schema({
 
 export const userModel = mongoose.model('Users', userSchema);
 
+const otpSchema = new mongoose.Schema({
+
+  otp: String,
+  email: String,
+  createdOn: { type: Date, default: Date.now },
+});
+
+export const otpModel = mongoose.model('Otp', otpSchema);
+
 const mongodbURI = process.env.mongodbURI || "mongodb+srv://abuser:abuser@cluster0.3psj2vc.mongodb.net/?retryWrites=true&w=majority"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

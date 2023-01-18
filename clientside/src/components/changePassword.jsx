@@ -69,9 +69,6 @@ function ChangePassword() {
                         Change Password
                         </button>
 
-                        {/* <p>Don't have an account? </p>
-                        <Link to={'/signup'}>Signup</Link> */}
-
                     </div>
                 </form>
 
