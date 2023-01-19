@@ -7,6 +7,10 @@ import {
     varifyHash
 } from "bcrypt-inzi";
 import { model } from 'mongoose';
+import SendEmail  from './sendingMails/sendMail.mjs'
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 
 const SECRET = process.env.SECRET || "topsecret";
 
@@ -198,14 +202,20 @@ router.post("/forget-password", async (req, res) => {
 
         const nanoid = customAlphabet('1234567890', 6)
         const OTP = nanoid()
+        const otpHash = await stringToHash(OTP)
 
-        console.log("otp: ", OTP);
+        // console.log("otp: ", OTP);
+
         otpModel.create({
-            otp: OTP,
+            otp: otpHash,
             email: body.email
         })
 
-        // send otp via email remaining
+        await SendEmail ({
+            email: body.email,
+            subject: `Froget password Request`,
+            text: `Your OTP code is ${OTP}`,
+          });
 
         res.send({
             message: "OTP send successfully",
