@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import './index.css'
 import { GlobalContext } from '../context/Context';
+import InfiniteScroll from 'react-infinite-scroller';
 
 
 
@@ -18,12 +19,25 @@ function Home() {
     const [loadTweet, setLoadTweet] = useState(false)
     const [isEditMode, setIsEditMode] = useState(false)
     const [editingTweet, setEditingTweet] = useState(null)
+    const [eof, setEof] = useState(false)
 
     const getAllTweets = async () => {
+
+        if (eof) return
+
         try {
-            const response = await axios.get(`${state.baseUrl}/tweetFeed`)
+            const response = await axios.get(`${state.baseUrl}/tweetFeed?page=${tweets.length}`)
             console.log("response: ", response.data);
-            setTweets(response.data.data)
+
+            if (response.data.data.length === 0) setEof(true)
+
+            setTweets((prev) => {
+
+                // if (prev.length >= 10) {
+                //     prev = prev.slice(5)
+                // }
+                return [...prev, ...response.data.data]
+            })
 
         } catch (error) {
             console.log("error in getting tweets ", error);
@@ -135,7 +149,13 @@ function Home() {
             <br />
             <br />
 
-            <div>
+            <InfiniteScroll
+                pageStart={0}
+                loadMore={getAllTweets}
+                hasMore={!eof}
+                loader={<div className="loader" key={0}>Loading ...</div>}
+            >
+
                 {tweets.map((eachTweet, i) => (
                     <div key={i} className="productCont">
                         <h2>{eachTweet?.owner?.firstName}</h2>
@@ -207,7 +227,8 @@ function Home() {
 
                     </div>
                 ))}
-            </div>
+
+            </InfiniteScroll>
 
 
 

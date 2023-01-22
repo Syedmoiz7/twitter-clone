@@ -74,13 +74,15 @@ router.get('/tweets', (req, res) => {
 
 router.get('/tweetFeed', (req, res) => {
 
+    const page = req.query.page || 0
+
     const userId = new mongoose.Types.ObjectId(req.body.token._id)
 
     tweetModel.find({ isDeleted: false }, {},
         {
             sort: { "_id": -1 },
-            limit: 100,
-            skip: 0,
+            limit: 5,
+            skip: page,
             populate: {
                 path: "owner",
                 select: "firstName email"
