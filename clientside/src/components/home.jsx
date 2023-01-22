@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from "axios";
+import moment from 'moment/moment';
 import { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import './index.css'
@@ -135,22 +136,21 @@ function Home() {
             <br />
 
             <div>
-                {tweets.map((eachProduct, i) => (
+                {tweets.map((eachTweet, i) => (
                     <div key={i} className="productCont">
-                        <h2>{eachProduct.name}</h2>
-                        <p>{eachProduct._id}</p>
-                        <h5>{eachProduct.price}</h5>
-                        <p>{eachProduct.description}</p>
+                        <h2>{eachTweet?.owner?.firstName}</h2>
+                        <div>{moment(eachTweet.createdOn).fromNow()}</div>
+                        <p>{eachTweet?.text}</p>
 
                         <button onClick={() => {
-                            deleteTweet(eachProduct._id)
+                            deleteTweet(eachTweet._id)
                         }}>Delete</button>
 
                         <button onClick={() => {
-                            editMode(eachProduct)
+                            editMode(eachTweet)
                         }}>Edit</button>
 
-                        {(isEditMode && editingTweet._id === eachProduct._id) ?
+                        {(isEditMode && editingTweet._id === eachTweet._id) ?
                             <div>
                                 <form onSubmit={editFormik.handleSubmit}>
                                     <input

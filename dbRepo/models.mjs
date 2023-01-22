@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    isActive: {type: Boolean, default: true},
     createdOn: { type: Date, default: Date.now },
 });
 
@@ -32,6 +33,7 @@ const otpSchema = new mongoose.Schema({
 
   otp: String,
   email: String,
+  isUsed: {type: Boolean, default: false},
   createdOn: { type: Date, default: Date.now },
 });
 

@@ -80,7 +80,11 @@ router.get('/tweetFeed', (req, res) => {
         {
             sort: { "_id": -1 },
             limit: 100,
-            skip: 0
+            skip: 0,
+            populate: {
+                path: "owner",
+                select: "firstName email"
+            }
         },
         (err, data) => {
             if (!err) {

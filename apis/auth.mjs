@@ -2,11 +2,11 @@ import express from 'express'
 import { userModel, otpModel } from "./../dbRepo/models.mjs"
 import jwt from 'jsonwebtoken';
 import { customAlphabet, nanoid } from "nanoid";
+import moment from 'moment/moment.js';
 import {
     stringToHash,
     varifyHash
 } from "bcrypt-inzi";
-import { model } from 'mongoose';
 import SendEmail  from './sendingMails/sendMail.mjs'
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -204,7 +204,7 @@ router.post("/forget-password", async (req, res) => {
         const OTP = nanoid()
         const otpHash = await stringToHash(OTP)
 
-        // console.log("otp: ", OTP);
+        console.log("otp: ", OTP);
 
         otpModel.create({
             otp: otpHash,
@@ -253,12 +253,27 @@ router.post("/forget-password-2", async (req, res) => {
         // check if otp already exist 
         const otpRecord = await otpModel.findOne(
             { email: body.email },
-            "firstName email",
+            // "firstName email",
         )
         .sort({ _id: -1 })
         .exec()
 
-        if (!otpRecord) throw new Error("otp not found");
+        
+        if (!otpRecord) throw new Error("Invalid Otp");
+        if (otpRecord.isUsed) throw new Error("Invalid Otp");
+
+        await otpRecord.update({isUsed: true}).exec()
+
+        console.log("otp record:", otpRecord);
+        console.log("otp record:", moment(otpRecord.createdOn));
+
+        const now = moment();
+        const otpCreatedTime = moment(otpRecord.createdOn)
+        const diffInMinutes = now.diff(otpCreatedTime, "minutes")
+
+        console.log("diffInMinutes: ", diffInMinutes);
+        
+        if(diffInMinutes >= 5) throw new Error("Invalid Otp")
 
         const isMatched = await varifyHash(body.otp, otpRecord.otp)
 

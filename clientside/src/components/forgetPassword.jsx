@@ -35,6 +35,29 @@ function ForgetPassword() {
 
         } catch (e) {
             console.log("error: ", e);
+            setResult(e.response?.data?.message);
+        }
+
+    }
+
+    const updatePassword = async (e) => {
+        e.preventDefault();
+
+        try {
+            let response = await axios.post(`${state.baseUrl}/forget-password-2`, {
+                email: email,
+                otp: otp,
+                newPassword: newPassword
+            }, {
+                withCredentials: true
+            })
+
+            console.log(response.data.message);
+            setResult(response.data.message);
+
+        } catch (e) {
+            console.log("error: ", e);
+            setResult(e.response?.data?.message);
         }
 
     }
@@ -48,41 +71,68 @@ function ForgetPassword() {
             </div>
 
             <div>
-                <form onSubmit={sendOtp}>
-                    <div className='form'>
-                        <input type="email" name="email" className="inputs"
-                            id="un" placeholder="Email" autoComplete='username'
-                            onChange={(e) => { setEmail(e.target.value) }} />
-                        <br />
-
-                        {(isOtpSend) ?
-                            <>
-                                <input type="text" name="otp" className="inputs"
-                                    id="un" placeholder="Enter your OTP"
-                                    onChange={(e) => { setOtp(e.target.value) }} />
-                                <br />
-
-                                <input type="password" name="newPassword" className="inputs"
-                                    id="un" placeholder="Enter your new password"
-                                    autoComplete='new-password'
-                                    onChange={(e) => { setNewPassword(e.target.value) }} />
-                                <br />
-
-                            </>
-                            :
-                            null}
 
 
-                        <button type='submit' className='btn'>
-                            Send OTP
-                        </button>
 
-                        <br />
+                {(!isOtpSend) ?
 
-                        <Link to={'/login'}>login</Link>
+                    <form onSubmit={sendOtp}>
+                        <div className='form'>
 
-                    </div>
-                </form>
+                            <input type="email" name="email" className="inputs"
+                                id="un" placeholder="Email" autoComplete='username'
+                                onChange={(e) => { setEmail(e.target.value) }} />
+                            <br />
+
+                            <button type='submit' className='btn'>
+                                Send OTP
+                            </button>
+
+                            <br />
+
+                            <Link to={'/login'}>login</Link>
+
+                        </div>
+                    </form>
+                    :
+                    <form onSubmit={updatePassword}>
+                        <div className='form'>
+
+                            <input type="email" name="email" className="inputs"
+                                id="un" placeholder="Email" autoComplete='username'
+                                disabled />
+                            <br />
+
+                            <input type="text" name="otp" className="inputs"
+                                id="un" placeholder="Enter your OTP" autoComplete='otp'
+                                onChange={(e) => { setOtp(e.target.value) }} />
+                            <br />
+
+                            <input type="password" name="newPassword" className="inputs"
+                                id="un" placeholder="Enter your new password"
+                                autoComplete='new-password'
+                                onChange={(e) => { setNewPassword(e.target.value) }} />
+                            <br />
+
+                            <button type='submit' className='btn'>
+                                Update Password
+                            </button>
+
+                            <br />
+
+                            <Link to={'/login'}>login</Link>
+
+                        </div>
+                    </form>
+                }
+
+
+
+
+
+
+
+
 
                 <p>{result}</p>
             </div>
