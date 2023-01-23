@@ -19,6 +19,7 @@ function Home() {
     const [loadTweet, setLoadTweet] = useState(false)
     const [isEditMode, setIsEditMode] = useState(false)
     const [editingTweet, setEditingTweet] = useState(null)
+    const [preview, setPreview] = useState(null)
     const [eof, setEof] = useState(false)
 
     const getAllTweets = async () => {
@@ -89,15 +90,26 @@ function Home() {
         onSubmit: (values) => {
             console.log("values: ", values);
 
-            axios.post(`${state.baseUrl}/tweet`, {
-                text: values.tweetText
+            let fileInput = document.getElementById("picture");
+            console.log("fileInput: ", fileInput.files[0]);
+
+            let formData = new formData();
+
+            formData.append("myFile", fileInput.files[0])
+            formData.append("text", values.tweetText)
+
+            axios({
+                method: 'post',
+                url: `${state.baseUrl}/tweet`,
+                data: formData,
+                headers: { 'Content-Type': 'multipart/form-data' }
             })
-                .then(response => {
-                    console.log("response: ", response.data);
+                .then(res => {
                     setLoadTweet(!loadTweet)
+                    console.log("upload success: ", res.data);
                 })
                 .catch(err => {
-                    console.log("error: ", err);
+                    console.log("error:", err);
                 })
         },
     });
@@ -141,6 +153,25 @@ function Home() {
                         :
                         null
                 }
+                <br />
+
+                {/* <label htmlFor="picture">Upload pic for your tweet</label>
+
+                <br /> */}
+
+                <input type="file" accept='image/*' id="picture"
+                    onChange={(e) => {
+
+                        let url = URL.createObjectURL(e.currentTarget.files[0])
+                        console.log("url: ", url);
+
+                        setPreview(url)
+                    }} />
+
+                <br />
+
+                <img width={150} src={preview} alt="" />
+
                 <br />
 
                 <button type="submit"> Tweet </button>
