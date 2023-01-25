@@ -12,6 +12,8 @@ import { stringToHash, varifyHash } from 'bcrypt-inzi';
 import { get } from 'http';
 import { stringify } from 'querystring';
 
+
+
 const SECRET = process.env.SECRET || "topsecret";
 
 const app = express()

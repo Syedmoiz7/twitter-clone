@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 let tweetSchema = new mongoose.Schema({
     text: { type: String, required: true },
     owner: { type: mongoose.ObjectId, ref:"Users", required: true },
-    image: { type: String },
+    imageUrl: { type: String },
     // likes: [{ type: mongoose.ObjectId }],
     // comments: [{ 
     //  user: {type: mongoose.ObjectId},
