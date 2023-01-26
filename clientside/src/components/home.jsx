@@ -93,7 +93,7 @@ function Home() {
             let fileInput = document.getElementById("picture");
             console.log("fileInput: ", fileInput.files[0]);
 
-            let formData = new formData();
+            let formData = new FormData();
 
             formData.append("myFile", fileInput.files[0])
             formData.append("text", values.tweetText)
@@ -194,6 +194,8 @@ function Home() {
                         <p>{eachTweet?.text}</p>
 
                         <img src={eachTweet.imageUrl} alt="tweet image" />
+
+                        <br />
 
                         <button onClick={() => {
                             deleteTweet(eachTweet._id)

@@ -24,7 +24,7 @@ router.post('/tweet', uploadMiddleware.any(), (req, res) => {
     try {
 
     const body = req.body;
-    const token = jwt.decode(req.cookies.token)
+    const token = jwt.decode(req.cookies.Token)
 
     if (
         !body.text
