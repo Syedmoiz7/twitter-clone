@@ -4,7 +4,7 @@ import axios from "axios";
 import moment from 'moment/moment';
 import { useEffect } from 'react';
 import { useState, useContext } from 'react';
-import './index.css'
+import './home.css'
 import { GlobalContext } from '../context/Context';
 import InfiniteScroll from 'react-infinite-scroller';
 

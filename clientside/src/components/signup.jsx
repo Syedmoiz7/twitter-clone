@@ -71,7 +71,7 @@ function Signup() {
 
                     <p>Already have an account?</p>
 
-                    <Link to={'/'}>Login</Link>
+                    <Link className="loginLink" to={'/'}>Login</Link>
 
                 </div>
             </form>

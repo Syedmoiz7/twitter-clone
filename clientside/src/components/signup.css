@@ -6,9 +6,6 @@
     align-items: center;
     justify-content: center;
     /* border: 2px solid black; */
-
-
-
 }
 
 .formSignup{
@@ -27,6 +24,16 @@
     margin-bottom: 20px;
     border-radius: 5px;
     padding-left: 10px;
-    border: 2px solid black;
+    border: 1px solid rgb(0, 0, 0, 0.5);
 
+}
+
+.loginLink {
+    text-decoration: none;
+    color: #1d9bf0;
+}
+
+.loginLink:hover {
+    text-decoration: underline;
+    color: #1d9bf0;
 }

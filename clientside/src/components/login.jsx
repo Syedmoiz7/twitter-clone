@@ -67,11 +67,13 @@ function Login() {
                         </button>
 
                         <p>Don't have an account? </p>
-                        <Link to={'/signup'}>Signup</Link>
+                        <Link to={'/signup'} className="signupbtn" >Signup</Link>
 
                         <br />
 
-                        <button><Link to={'/forget-password'}>Forget Password ?</Link></button>
+                        <button className='forget'>
+                            <Link className='forgetlink' to={'/forget-password'}>Forgot Password ?</Link>
+                            </button>
 
 
                     </div>
