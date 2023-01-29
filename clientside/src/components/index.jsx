@@ -103,7 +103,7 @@ function Render() {
 
   return (
 
-    <div className="App">
+    <div className= {` ${(state.isLogin === true) ? "Lit" : "Dark"} `}>
 
       {
         (state.isLogin === true) ?

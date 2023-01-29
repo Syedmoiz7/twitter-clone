@@ -137,137 +137,140 @@ function Home() {
 
     return (
         <div className='main'>
-            <h1>Home</h1>
-            <form onSubmit={myFormik.handleSubmit}>
-                <textarea
-                    id="tweetText"
-                    placeholder="What's in your mind"
-                    value={myFormik.values.tweetText}
-                    onChange={myFormik.handleChange}
-                    rows="5"
-                    cols="50"
-                ></textarea>
-                {
-                    (myFormik.touched.tweetText && Boolean(myFormik.errors.tweetText)) ?
-                        <span style={{ color: "red" }}>{myFormik.errors.tweetText}</span>
-                        :
-                        null
-                }
-                <br />
 
-                {/* <label htmlFor="picture">Upload pic for your tweet</label>
+            <div className="icons">
+                
+            </div>
+
+            <div className="tweet">
+                <h1>Home</h1>
+                <form onSubmit={myFormik.handleSubmit}>
+                    <textarea
+                        id="tweetText"
+                        placeholder="What's in your mind"
+                        value={myFormik.values.tweetText}
+                        onChange={myFormik.handleChange}
+                        rows="5"
+                        cols="50"
+                    ></textarea>
+                    {
+                        (myFormik.touched.tweetText && Boolean(myFormik.errors.tweetText)) ?
+                            <span style={{ color: "red" }}>{myFormik.errors.tweetText}</span>
+                            :
+                            null
+                    }
+                    <br />
+
+                    {/* <label htmlFor="picture">Upload pic for your tweet</label>
 
                 <br /> */}
 
-                <input type="file" accept='image/*' id="picture"
-                    onChange={(e) => {
+                    <input type="file" accept='image/*' id="picture"
+                        onChange={(e) => {
 
-                        let url = URL.createObjectURL(e.currentTarget.files[0])
-                        console.log("url: ", url);
+                            let url = URL.createObjectURL(e.currentTarget.files[0])
+                            console.log("url: ", url);
 
-                        setPreview(url)
-                    }} />
+                            setPreview(url)
+                        }} />
+
+                    <br />
+
+                    <img width={150} src={preview} alt="" />
+
+                    <br />
+
+                    <button type="submit"> Tweet </button>
+                </form>
 
                 <br />
-
-                <img width={150} src={preview} alt="" />
-
                 <br />
 
-                <button type="submit"> Tweet </button>
-            </form>
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={getAllTweets}
+                    hasMore={!eof}
+                    loader={<div className="loader" key={0}>Loading ...</div>}
+                >
 
-            <br />
-            <br />
+                    {tweets.map((eachTweet, i) => (
+                        <div key={i} className="productCont">
+                            <h2>{eachTweet?.owner?.firstName}</h2>
+                            <div>{moment(eachTweet.createdOn).fromNow()}</div>
+                            <p>{eachTweet?.text}</p>
 
-            <InfiniteScroll
-                pageStart={0}
-                loadMore={getAllTweets}
-                hasMore={!eof}
-                loader={<div className="loader" key={0}>Loading ...</div>}
-            >
+                            <img src={eachTweet.imageUrl} alt="tweet image" />
 
-                {tweets.map((eachTweet, i) => (
-                    <div key={i} className="productCont">
-                        <h2>{eachTweet?.owner?.firstName}</h2>
-                        <div>{moment(eachTweet.createdOn).fromNow()}</div>
-                        <p>{eachTweet?.text}</p>
+                            <br />
 
-                        <img src={eachTweet.imageUrl} alt="tweet image" />
+                            <button onClick={() => {
+                                deleteTweet(eachTweet._id)
+                            }}>Delete</button>
 
-                        <br />
+                            <button onClick={() => {
+                                editMode(eachTweet)
+                            }}>Edit</button>
 
-                        <button onClick={() => {
-                            deleteTweet(eachTweet._id)
-                        }}>Delete</button>
+                            {(isEditMode && editingTweet._id === eachTweet._id) ?
+                                <div>
+                                    <form onSubmit={editFormik.handleSubmit}>
+                                        <input
+                                            id="tweetText"
+                                            placeholder="Product Name"
+                                            value={editFormik.values.tweetText}
+                                            onChange={editFormik.handleChange}
+                                        />
+                                        {
+                                            (editFormik.touched.tweetText && Boolean(editFormik.errors.tweetText)) ?
+                                                <span style={{ color: "red" }}>{editFormik.errors.tweetText}</span>
+                                                :
+                                                null
+                                        }
 
-                        <button onClick={() => {
-                            editMode(eachTweet)
-                        }}>Edit</button>
+                                        <br />
 
-                        {(isEditMode && editingTweet._id === eachTweet._id) ?
-                            <div>
-                                <form onSubmit={editFormik.handleSubmit}>
-                                    <input
-                                        id="tweetText"
-                                        placeholder="Product Name"
-                                        value={editFormik.values.tweetText}
-                                        onChange={editFormik.handleChange}
-                                    />
-                                    {
-                                        (editFormik.touched.tweetText && Boolean(editFormik.errors.tweetText)) ?
-                                            <span style={{ color: "red" }}>{editFormik.errors.tweetText}</span>
-                                            :
-                                            null
-                                    }
+                                        <input
+                                            id="productPrice"
+                                            placeholder="Product Price"
+                                            value={editFormik.values.productPrice}
+                                            onChange={editFormik.handleChange}
+                                        />
+                                        {
+                                            (editFormik.touched.productPrice && Boolean(editFormik.errors.productPrice)) ?
+                                                <span style={{ color: "red" }}>{editFormik.errors.productPrice}</span>
+                                                :
+                                                null
+                                        }
 
-                                    <br />
+                                        <br />
 
-                                    <input
-                                        id="productPrice"
-                                        placeholder="Product Price"
-                                        value={editFormik.values.productPrice}
-                                        onChange={editFormik.handleChange}
-                                    />
-                                    {
-                                        (editFormik.touched.productPrice && Boolean(editFormik.errors.productPrice)) ?
-                                            <span style={{ color: "red" }}>{editFormik.errors.productPrice}</span>
-                                            :
-                                            null
-                                    }
+                                        <input
+                                            id="productDescription"
+                                            placeholder="Product Description"
+                                            value={editFormik.values.productDescription}
+                                            onChange={editFormik.handleChange}
+                                        />
+                                        {
+                                            (editFormik.touched.productDescription && Boolean(editFormik.errors.productDescription)) ?
+                                                <span style={{ color: "red" }}>{editFormik.errors.productDescription}</span>
+                                                :
+                                                null
+                                        }
 
-                                    <br />
-
-                                    <input
-                                        id="productDescription"
-                                        placeholder="Product Description"
-                                        value={editFormik.values.productDescription}
-                                        onChange={editFormik.handleChange}
-                                    />
-                                    {
-                                        (editFormik.touched.productDescription && Boolean(editFormik.errors.productDescription)) ?
-                                            <span style={{ color: "red" }}>{editFormik.errors.productDescription}</span>
-                                            :
-                                            null
-                                    }
-
-                                    <br />
-                                    <button type="submit"> Submit </button>
-                                </form>
-                            </div>
-                            :
-                            null}
+                                        <br />
+                                        <button type="submit"> Submit </button>
+                                    </form>
+                                </div>
+                                :
+                                null}
 
 
 
-                    </div>
-                ))}
+                        </div>
+                    ))}
+                </InfiniteScroll>
 
-            </InfiniteScroll>
-
-
-
-
+            </div>
         </div>
     )
 }
