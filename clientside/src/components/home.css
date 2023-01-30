@@ -1,4 +1,130 @@
-.main {
-/* background-color: white; */
-/* z-index: 1; */
+/* .main {
+background-color: white;
+z-index: 1;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #E6ECF0;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .header .header-right {
+    display: flex;
+  }
+  
+  .header .header-right a {
+    display: block;
+    padding: 8px 15px;
+    color: #1da1f2;
+    text-decoration: none;
+  }
+  
+  .header .header-right a:hover {
+    background-color: #E6ECF0;
+  }
+  
+  .tweet {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 15px;
+    padding: 15px;
+  }
+  
+  .tweet h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .tweet p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 8px;
+  } */
+
+
+
+  .tweet-container {
+    width: 500px;
+    background-color: white;
+    border: 1px solid #e6ecf0;
+    border-radius: 10px;
+    margin: 20px 0;
+  }
+  
+  .tweet-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e6ecf0;
+  }
+  
+  .profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .username {
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .tweet-text {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .tweet-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #e6ecf0;
+  }
+  
+  .tweet-date {
+    font-size: 12px;
+    color: #657786;
+    margin: 0;
+  }
+  
+  .tweet-actions {
+    display: flex;
+  }
+  
+  .tweet-actions i {
+    font-size: 14px;
+    color: #657786;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .fa-reply {
+    padding-right: 10px;
+  }
+  
+  .fa-retweet {
+    padding-right: 10px;
+  }
+  
+  .fa-heart {
+    padding-right: 10px;
+  }

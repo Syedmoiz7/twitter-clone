@@ -8,8 +8,11 @@ import './home.css'
 import { GlobalContext } from '../context/Context';
 import InfiniteScroll from 'react-infinite-scroller';
 
-
-
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import {fa-solid fa-reply } from '@fortawesome/react-fontawesome'
+// import { fa-solid fa-retweet} from '@fortawesome/react-fontawesome'
+// import {fa solid fa-heart } from '@fortawesome/react-fontawesome'
+                      
 
 function Home() {
 
@@ -138,8 +141,24 @@ function Home() {
     return (
         <div className='main'>
 
+            <div class="tweet-container">
+                <div class="tweet-header">
+                    <img src="https://atd-blog.s3.us-east-2.amazonaws.com/wp-content/uploads/2022/04/16142811/cool-profile-pictures-for-tiktok-5-678x1024.webp" class="profile-image"/>
+                        <h3 class="username">@username</h3>
+                </div>
+                <p class="tweet-text">This is a sample tweet text.</p>
+                <div class="tweet-footer">
+                    <p class="tweet-date">Jan 30, 2023</p>
+                    <div class="tweet-actions">
+                        <i class="fa fa-reply"></i>
+                        <i class="fa fa-retweet"></i>
+                        <i class="fa fa-heart"></i>
+                    </div>
+                </div>
+            </div>
+
             <div className="icons">
-                
+
             </div>
 
             <div className="tweet">
