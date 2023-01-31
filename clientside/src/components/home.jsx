@@ -12,7 +12,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 // import {fa-solid fa-reply } from '@fortawesome/react-fontawesome'
 // import { fa-solid fa-retweet} from '@fortawesome/react-fontawesome'
 // import {fa solid fa-heart } from '@fortawesome/react-fontawesome'
-                      
+
 
 function Home() {
 
@@ -141,37 +141,28 @@ function Home() {
     return (
         <div className='main'>
 
+            <h1>Home</h1>
+
+
             <div class="tweet-container">
                 <div class="tweet-header">
-                    <img src="https://atd-blog.s3.us-east-2.amazonaws.com/wp-content/uploads/2022/04/16142811/cool-profile-pictures-for-tiktok-5-678x1024.webp" class="profile-image"/>
-                        <h3 class="username">@username</h3>
+                    <img src="https://atd-blog.s3.us-east-2.amazonaws.com/wp-content/uploads/2022/04/16142811/cool-profile-pictures-for-tiktok-5-678x1024.webp" class="profile-image" />
+                    <h3 class="username">@username</h3>
                 </div>
-                <p class="tweet-text">This is a sample tweet text.</p>
-                <div class="tweet-footer">
-                    <p class="tweet-date">Jan 30, 2023</p>
-                    <div class="tweet-actions">
-                        <i class="fa fa-reply"></i>
-                        <i class="fa fa-retweet"></i>
-                        <i class="fa fa-heart"></i>
-                    </div>
-                </div>
-            </div>
 
-            <div className="icons">
-
-            </div>
-
-            <div className="tweet">
-                <h1>Home</h1>
                 <form onSubmit={myFormik.handleSubmit}>
-                    <textarea
-                        id="tweetText"
-                        placeholder="What's in your mind"
-                        value={myFormik.values.tweetText}
-                        onChange={myFormik.handleChange}
-                        rows="5"
-                        cols="50"
-                    ></textarea>
+                    <div className="tweetInput">
+                        <input
+                            id="tweetText"
+                            placeholder="What's happening"
+                            value={myFormik.values.tweetText}
+                            onChange={myFormik.handleChange}
+                        // rows="5"
+                        // cols="50"
+                        ></input>
+
+                        <hr />
+                    
                     {
                         (myFormik.touched.tweetText && Boolean(myFormik.errors.tweetText)) ?
                             <span style={{ color: "red" }}>{myFormik.errors.tweetText}</span>
@@ -200,7 +191,20 @@ function Home() {
                     <br />
 
                     <button type="submit"> Tweet </button>
+                    </div>
                 </form>
+
+                <div class="tweet-footer">
+                    <p class="tweet-date">Jan 30, 2023</p>
+                    <div class="tweet-actions">
+                        <i class="fa fa-reply"></i>
+                        <i class="fa fa-retweet"></i>
+                        <i class="fa fa-heart"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div className="tweet">
 
                 <br />
                 <br />

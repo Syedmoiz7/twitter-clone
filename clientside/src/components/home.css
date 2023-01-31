@@ -65,7 +65,7 @@ body {
     background-color: white;
     border: 1px solid #e6ecf0;
     border-radius: 10px;
-    margin: 20px 0;
+    margin: 20px auto;
   }
   
   .tweet-header {
@@ -128,3 +128,25 @@ body {
   .fa-heart {
     padding-right: 10px;
   }
+
+#tweetText {
+  border: none;
+  width: 500px;
+  height: 60px;
+  padding-left: 50px;
+
+}
+
+input:focus {
+outline: none;
+}
+
+.tweetInput {
+  /* border: 1px solid black; */
+  /* height: 100px; */
+}
+
+hr {
+  width: 400px;
+  border: 0.5px solid #e6ecf0;;
+}
