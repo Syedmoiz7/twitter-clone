@@ -143,63 +143,69 @@ function Home() {
 
             <h1>Home</h1>
 
-
-            <div class="tweet-container">
-                <div class="tweet-header">
-                    <img src="https://atd-blog.s3.us-east-2.amazonaws.com/wp-content/uploads/2022/04/16142811/cool-profile-pictures-for-tiktok-5-678x1024.webp" class="profile-image" />
-                    <h3 class="username">@username</h3>
-                </div>
-
-                <form onSubmit={myFormik.handleSubmit}>
-                    <div className="tweetInput">
-                        <input
-                            id="tweetText"
-                            placeholder="What's happening"
-                            value={myFormik.values.tweetText}
-                            onChange={myFormik.handleChange}
-                        // rows="5"
-                        // cols="50"
-                        ></input>
-
-                        <hr />
-                    
-                    {
-                        (myFormik.touched.tweetText && Boolean(myFormik.errors.tweetText)) ?
-                            <span style={{ color: "red" }}>{myFormik.errors.tweetText}</span>
-                            :
-                            null
-                    }
-                    <br />
-
-                    {/* <label htmlFor="picture">Upload pic for your tweet</label>
-
-                <br /> */}
-
-                    <input type="file" accept='image/*' id="picture"
-                        onChange={(e) => {
-
-                            let url = URL.createObjectURL(e.currentTarget.files[0])
-                            console.log("url: ", url);
-
-                            setPreview(url)
-                        }} />
-
-                    <br />
-
-                    <img width={150} src={preview} alt="" />
-
-                    <br />
-
-                    <button type="submit"> Tweet </button>
+            <div className="alignCenter">
+                <div class="tweet-container">
+                    <div class="tweet-header">
+                        <img src="https://atd-blog.s3.us-east-2.amazonaws.com/wp-content/uploads/2022/04/16142811/cool-profile-pictures-for-tiktok-5-678x1024.webp" class="profile-image" />
+                        <h3 class="username">@username</h3>
                     </div>
-                </form>
 
-                <div class="tweet-footer">
-                    <p class="tweet-date">Jan 30, 2023</p>
-                    <div class="tweet-actions">
-                        <i class="fa fa-reply"></i>
-                        <i class="fa fa-retweet"></i>
-                        <i class="fa fa-heart"></i>
+                    <form onSubmit={myFormik.handleSubmit}>
+                        <div className="tweetInput">
+                            <input
+                                id="tweetText"
+                                placeholder="What's happening"
+                                value={myFormik.values.tweetText}
+                                onChange={myFormik.handleChange}
+                                rows="5"
+                                cols="50"
+                            ></input>
+                        </div>
+                        <hr />
+
+                        {
+                            (myFormik.touched.tweetText && Boolean(myFormik.errors.tweetText)) ?
+                                <span style={{ color: "red" }}>{myFormik.errors.tweetText}</span>
+                                :
+                                null
+                        }
+                        <br />
+
+                        <div class="image-upload">
+                        <div className="icons">
+                            <label for="file-input">
+                                <i class="fa-regular fa-image"></i>
+                            </label>
+                            <i class="fa-light fa-gif"></i>
+                            </div>
+                            <input type="file" accept='image/*' id="file-input"
+                                onChange={(e) => {
+
+                                    let url = URL.createObjectURL(e.currentTarget.files[0])
+                                    console.log("url: ", url);
+
+                                    setPreview(url)
+                                }} />
+
+
+
+                            <br />
+                            <img width={150} src={preview} alt="" />
+                        </div>
+
+                        <div className="tweetButton">
+                            <button type="submit"> Tweet </button>
+                        </div>
+
+                    </form>
+
+                    <div class="tweet-footer">
+                        <p class="tweet-date">Jan 30, 2023</p>
+                        <div class="tweet-actions">
+                            <i class="fa fa-reply"></i>
+                            <i class="fa fa-retweet"></i>
+                            <i class="fa fa-heart"></i>
+                        </div>
                     </div>
                 </div>
             </div>
