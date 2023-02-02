@@ -7,6 +7,10 @@ import { useState, useContext } from 'react';
 import './home.css'
 import { GlobalContext } from '../context/Context';
 import InfiniteScroll from 'react-infinite-scroller';
+import { HiOutlineGif } from 'react-icons/hi2'
+import { CgImage } from 'react-icons/cg'
+import { BiPoll, BiSmile } from 'react-icons/bi'
+import { GoLocation } from 'react-icons/go'
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import {fa-solid fa-reply } from '@fortawesome/react-fontawesome'
@@ -154,13 +158,18 @@ function Home() {
                         <div className="tweetInput">
                             <input
                                 id="tweetText"
-                                placeholder="What's happening"
+                                placeholder="What's happening?"
                                 value={myFormik.values.tweetText}
                                 onChange={myFormik.handleChange}
                                 rows="5"
                                 cols="50"
                             ></input>
                         </div>
+
+                        <div className="preview">
+                            <img width={410} src={preview} alt="" className='prevImage' />
+                        </div>
+
                         <hr />
 
                         {
@@ -171,12 +180,18 @@ function Home() {
                         }
                         <br />
 
+
+
+
                         <div class="image-upload">
-                        <div className="icons">
-                            <label for="file-input">
-                                <i class="fa-regular fa-image"></i>
-                            </label>
-                            <i class="fa-light fa-gif"></i>
+                            <div className="iconsContainer">
+                                <label for="file-input">
+                                    <CgImage className='icons' />
+                                </label>
+                                <HiOutlineGif className='icons' />
+                                <BiPoll className='icons' />
+                                <BiSmile className='icons' />
+                                <GoLocation className='icons' />
                             </div>
                             <input type="file" accept='image/*' id="file-input"
                                 onChange={(e) => {
@@ -190,12 +205,13 @@ function Home() {
 
 
                             <br />
-                            <img width={150} src={preview} alt="" />
+
+                            <div className="tweetButton">
+                                <button type="submit"> Tweet </button>
+                            </div>
                         </div>
 
-                        <div className="tweetButton">
-                            <button type="submit"> Tweet </button>
-                        </div>
+
 
                     </form>
 
